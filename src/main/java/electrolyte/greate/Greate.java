@@ -2,8 +2,12 @@ package electrolyte.greate;
 
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.util.entry.ItemProviderEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.format.ConfigFormats;
+import electrolyte.greate.foundation.advancement.GreateAdvancements;
 import electrolyte.greate.foundation.data.recipe.GreateMechanicalCraftingRecipeGen;
 import electrolyte.greate.foundation.data.recipe.GreateStandardRecipeGen;
 import electrolyte.greate.registry.*;
@@ -35,6 +39,7 @@ public class Greate {
         REGISTRATE.registerEventListeners(eventBus);
         GreateLang.register();
         GreateTags.init();
+        Belts.register();
         Cogwheels.register();
         CrushingWheels.register();
         Gearboxes.register();
@@ -59,6 +64,8 @@ public class Greate {
 
     private void gatherData(GatherDataEvent event) {
         if(event.includeServer()) {
+            REGISTRATE.addDataGenerator(ProviderType.LANG, p -> GreateAdvancements.provideLang(p::add));
+            event.getGenerator().addProvider(true, new GreateAdvancements(event.getGenerator()));
             event.getGenerator().addProvider(true, new GreateStandardRecipeGen(event.getGenerator()));
             event.getGenerator().addProvider(true, new GreateMechanicalCraftingRecipeGen(event.getGenerator()));
         }

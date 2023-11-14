@@ -16,7 +16,7 @@ public interface TieredProcessingRecipeSchema extends ProcessingRecipeSchema {
             if(tier.name().equalsIgnoreCase(s)) return true;
         }
         return false;
-    }).key("recipeTier").optional("ulv");
+    }).key("recipeTier").optional("ultra_low");
 
     class TieredProcessingRecipeJS extends ProcessingRecipeJS {
         public RecipeJS recipeTier(Object from) {
