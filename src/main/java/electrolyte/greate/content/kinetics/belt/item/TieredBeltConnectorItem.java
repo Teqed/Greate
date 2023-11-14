@@ -30,9 +30,11 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -99,7 +101,7 @@ public class TieredBeltConnectorItem extends BlockItem implements ITieredBelt {
     }
 
     public void createBelts(Level level, BlockPos start, BlockPos end) {
-        level.playSound(null, BlockPos.containing(VecHelper.getCenterOf(start.offset(end)).scale(0.5F)), SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.5F, 1F);
+        level.playSound(null, new BlockPos(VecHelper.getCenterOf(start.offset(end)).scale(0.5F)), SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.5F, 1F);
         BeltSlope slope = getSlopeBetween(start, end);
         Direction facing = getFacingFromTo(start, end);
         BlockPos diff = end.subtract(start);
@@ -130,7 +132,19 @@ public class TieredBeltConnectorItem extends BlockItem implements ITieredBelt {
             ((TieredBeltBlock) state.getBlock()).setTier(tier);
             if(part == BeltPart.MIDDLE && pulley) part = BeltPart.PULLEY;
             if(pulley && shaftState.getValue(AbstractShaftBlock.AXIS) == Axis.Y) slope = BeltSlope.SIDEWAYS;
-            if(!existingState.canBeReplaced()) level.destroyBlock(pos, false);
+            
+            // Suppose we want to place the block as if it is always placed facing upwards.
+            // You may need to adjust Direction.UP if your belt should face a different direction.
+            DirectionalPlaceContext context = new DirectionalPlaceContext(
+                level, pos, Direction.UP, ItemStack.EMPTY, Direction.UP);
+                
+            // Check whether the existing block state can be replaced
+            if (!existingState.canBeReplaced(context)) {
+                // Destroy the existing block (without dropping the block as an item)
+                level.destroyBlock(pos, false);
+            }
+
+            // Switch to the belt block state
             KineticBlockEntity.switchToBlockState(level, pos, ProperWaterloggedBlock.withWater(level, state
                     .setValue(BeltBlock.SLOPE, slope)
                     .setValue(BeltBlock.PART, part)
@@ -214,12 +228,28 @@ public class TieredBeltConnectorItem extends BlockItem implements ITieredBelt {
 
         if(Math.signum(speed) != Math.signum(speed2) && speed != 0 && speed2 != 0) return false;
 
-        BlockPos step = BlockPos.containing(Math.signum(diff.getX()), Math.signum(diff.getY()), Math.signum(diff.getZ()));
+        BlockPos step = new BlockPos(
+            (int)Math.signum(diff.getX()),
+            (int)Math.signum(diff.getY()),
+            (int)Math.signum(diff.getZ())
+        );
         int limit = 1000;
         for(BlockPos pos = first.offset(step); !pos.equals(second) && limit-- > 0; pos = pos.offset(step)) {
             BlockState blockState = level.getBlockState(pos);
             if(blockState.getBlock() instanceof TieredBeltBlock && blockState.getValue(AbstractSimpleShaftBlock.AXIS) == shaftAxis) continue;
-            if(!blockState.canBeReplaced()) return false;
+            BlockState tempStateForCheck = Blocks.AIR.defaultBlockState(); // Temporary state for replaceability checks.
+            for (BlockPos _pos = first.offset(step); !_pos.equals(second) && limit-- > 0; _pos = _pos.offset(step)) {
+                BlockState _blockState = level.getBlockState(_pos);
+                if (_blockState.getBlock() instanceof TieredBeltBlock && _blockState.getValue(AbstractSimpleShaftBlock.AXIS) == shaftAxis) {
+                    continue;
+                }
+            // Create a DirectionalPlaceContext for each position with air temporary state.
+            DirectionalPlaceContext context = new DirectionalPlaceContext(
+                level, pos, Direction.UP, new ItemStack(tempStateForCheck.getBlock()), Direction.UP);
+        
+            // Use the context to determine if the block state can be replaced.
+            if(!blockState.canBeReplaced(context)) return false;
+            }
         }
         return true;
     }

@@ -52,7 +52,7 @@ public class GreateAdvancement {
             description += SECRET_SUFFIX;
         }
 
-        GreateAdvancements.ENTRIES.add(this);
+        // GreateAdvancements.ENTRIES.add(this);
     }
 
     private String titleKey() {

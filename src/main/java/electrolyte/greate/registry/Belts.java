@@ -7,7 +7,6 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.TagGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import electrolyte.greate.Greate;
 import electrolyte.greate.GreateEnums.BELT_TYPE;
 import electrolyte.greate.content.kinetics.belt.TieredBeltBlock;
 import electrolyte.greate.content.kinetics.belt.TieredBeltGenerator;
@@ -19,7 +18,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
@@ -32,11 +31,6 @@ import static electrolyte.greate.Greate.REGISTRATE;
 public class Belts {
 
     public static final Map<Block, List<Block>> VALID_SHAFTS = new HashMap<>();
-
-    static {
-        REGISTRATE.useCreativeTab(Greate.GREATE_TAB);
-    }
-
     public static final BlockEntry<TieredBeltBlock> RUBBER_BELT = belt("rubber_belt", BELT_TYPE.RUBBER, List.of(Shafts.ANDESITE_SHAFT, Shafts.STEEL_SHAFT));
     public static final ItemEntry<TieredBeltConnectorItem> RUBBER_BELT_CONNECTOR = beltConnector("rubber_belt_connector", RUBBER_BELT);
     public static final BlockEntry<TieredBeltBlock> SILICONE_RUBBER_BELT = belt("silicone_rubber_belt", BELT_TYPE.SILICONE_RUBBER, List.of(Shafts.ALUMINIUM_SHAFT, Shafts.STAINLESS_STEEL_SHAFT));
@@ -54,7 +48,7 @@ public class Belts {
                 .addLayer(() -> RenderType::cutoutMipped)
                 .properties(p -> p.sound(SoundType.WOOL))
                 .properties(p -> p.strength(0.8F))
-                .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
+                .properties(p -> p.color(MaterialColor.COLOR_GRAY))
                 .transform(TagGen.axeOrPickaxe())
                 .transform(BlockStressDefaults.setNoImpact())
                 .blockstate(new TieredBeltGenerator()::generate)

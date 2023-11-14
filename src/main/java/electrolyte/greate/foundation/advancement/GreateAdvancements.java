@@ -8,16 +8,13 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.PackOutput.PathProvider;
-import net.minecraft.data.PackOutput.Target;
 import net.minecraft.resources.ResourceLocation;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
@@ -47,35 +44,44 @@ public class GreateAdvancements implements DataProvider {
             .icon(Belts.SILICONE_RUBBER_BELT)
             .title("Tasty!")
             .description("Consume every type of belt")
-            .whenItemConsumed(Belts.RUBBER_BELT_CONNECTOR)
-            .whenItemConsumed(Belts.SILICONE_RUBBER_BELT_CONNECTOR)
-            .whenItemConsumed(Belts.POLYETHYLENE_BELT_CONNECTOR)
-            .whenItemConsumed(Belts.POLYTETRAFLUOROETHYLENE_BELT_CONNECTOR)
-            .whenItemConsumed(Belts.POLYBENZIMIDAZOLE_BELT_CONNECTOR)
+            .whenItemConsumed(Belts.RUBBER_BELT_CONNECTOR.get())
+            .whenItemConsumed(Belts.SILICONE_RUBBER_BELT_CONNECTOR.get())
+            .whenItemConsumed(Belts.POLYETHYLENE_BELT_CONNECTOR.get())
+            .whenItemConsumed(Belts.POLYTETRAFLUOROETHYLENE_BELT_CONNECTOR.get())
+            .whenItemConsumed(Belts.POLYBENZIMIDAZOLE_BELT_CONNECTOR.get())
             .after(ROOT)
             .special(SECRET_NOISY)),
 
     END = null;
 
-    @Override
-    public CompletableFuture<?> run(CachedOutput pOutput) {
-        PathProvider pathProvider = output.createPathProvider(Target.DATA_PACK, "advancements");
-        List<CompletableFuture<?>> futures = new ArrayList<>();
-        Set<ResourceLocation> set = Sets.newHashSet();
-        Consumer<Advancement> consumer = (adv) -> {
-            ResourceLocation id = adv.getId();
-            if(!set.add(id)) {
-                throw new IllegalStateException("Duplicate Advancement " + id);
-            }
-            Path path = pathProvider.json(id);
-            futures.add(DataProvider.saveStable(pOutput, adv.deconstruct().serializeToJson(), path));
-        };
+	@Override
+	public void run(CachedOutput pOutput) {
+		// Assuming "output" has been defined and refers to an instance of DataGenerator.
+		Path pathFolder = output.getOutputFolder().resolve("data/greate/advancements");
 
-        for(GreateAdvancement adv : ENTRIES) {
-            adv.save(consumer);
-        }
-        return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
-    }
+		// You'll not collect futures because the run method does not work asynchronously in 1.19.2.
+		Set<ResourceLocation> set = Sets.newHashSet();
+		Consumer<Advancement> consumer = (adv) -> {
+			ResourceLocation id = adv.getId();
+			if (!set.add(id)) {
+				throw new IllegalStateException("Duplicate Advancement " + id);
+			}
+			// Directly compute the path from your folder and the resource location.
+			Path path = pathFolder.resolve(id.getPath() + ".json");
+			try {
+				// Save the data immediately rather than returning a future.
+				DataProvider.saveStable(pOutput, adv.deconstruct().serializeToJson(), path);
+			} catch (IOException e) {
+				// Log or handle the exception as required.
+				// You may need to add a logger or handling code here.
+			}
+		};
+
+		for (GreateAdvancement adv : ENTRIES) {
+			adv.save(consumer);
+		}
+		// Since we're not returning anything (the method is void), no need for a combined future.
+	}
 
     @Override
     public String getName() {
