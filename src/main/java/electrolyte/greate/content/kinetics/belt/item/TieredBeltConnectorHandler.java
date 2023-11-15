@@ -1,7 +1,6 @@
 package electrolyte.greate.content.kinetics.belt.item;
 
 import com.simibubi.create.infrastructure.config.AllConfigs;
-import electrolyte.greate.content.kinetics.belt.item.TieredBeltConnectorItem;
 import electrolyte.greate.content.kinetics.simpleRelays.TieredShaftBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
