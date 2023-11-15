@@ -285,8 +285,7 @@ public class TieredBeltRenderer extends SafeBlockEntityRenderer<TieredBeltBlockE
             if (slopeShadowOnly)
                 ms.pushPose();
             if (!renderUpright || slopeShadowOnly) {
-                ms.mulPose(Vector3f.YP.rotationDegrees(slopeAlongX ? slopeAngle : 0));
-                ms.mulPose(Vector3f.XP.rotationDegrees(slopeAlongX ? 0 : slopeAngle));
+                ms.mulPose((slopeAlongX ? Vector3f.ZP : Vector3f.XP).rotationDegrees(slopeAngle));
             }
             if (onSlope)
                 ms.translate(0, slopeOffset, 0);

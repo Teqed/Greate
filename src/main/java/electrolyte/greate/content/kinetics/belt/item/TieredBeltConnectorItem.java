@@ -132,19 +132,7 @@ public class TieredBeltConnectorItem extends BlockItem implements ITieredBelt {
             ((TieredBeltBlock) state.getBlock()).setTier(tier);
             if(part == BeltPart.MIDDLE && pulley) part = BeltPart.PULLEY;
             if(pulley && shaftState.getValue(AbstractShaftBlock.AXIS) == Axis.Y) slope = BeltSlope.SIDEWAYS;
-            
-            // Suppose we want to place the block as if it is always placed facing upwards.
-            // You may need to adjust Direction.UP if your belt should face a different direction.
-            DirectionalPlaceContext context = new DirectionalPlaceContext(
-                level, pos, Direction.UP, ItemStack.EMPTY, Direction.UP);
-                
-            // Check whether the existing block state can be replaced
-            if (!existingState.canBeReplaced(context)) {
-                // Destroy the existing block (without dropping the block as an item)
-                level.destroyBlock(pos, false);
-            }
-
-            // Switch to the belt block state
+            if (!existingState.canBeReplaced(new DirectionalPlaceContext(level, pos, Direction.UP, ItemStack.EMPTY, Direction.UP))) level.destroyBlock(pos, false);
             KineticBlockEntity.switchToBlockState(level, pos, ProperWaterloggedBlock.withWater(level, state
                     .setValue(BeltBlock.SLOPE, slope)
                     .setValue(BeltBlock.PART, part)
