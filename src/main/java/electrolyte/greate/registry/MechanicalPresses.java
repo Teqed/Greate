@@ -10,17 +10,13 @@ import electrolyte.greate.GreateEnums.TIER;
 import electrolyte.greate.content.kinetics.press.TieredMechanicalPressBlock;
 import electrolyte.greate.content.kinetics.simpleRelays.TieredShaftBlock;
 import electrolyte.greate.foundation.data.GreateBuilderTransformers;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 
 import java.util.ArrayList;
 
 import static electrolyte.greate.Greate.REGISTRATE;
 
 public class MechanicalPresses {
-
-    static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
-    }
 
     public static ArrayList<TieredMechanicalPressBlock> MECHANICAL_PRESSES = new ArrayList<>();
 
@@ -38,7 +34,7 @@ public class MechanicalPresses {
     public static BlockEntry<TieredMechanicalPressBlock> mechanicalPress(String name, TIER tier, PartialModel headModel, BlockEntry<TieredShaftBlock> tieredShaft, double stressImpact) {
         return REGISTRATE.block(name, p -> new TieredMechanicalPressBlock(p, headModel, tieredShaft.get()))
                 .initialProperties(SharedProperties::stone)
-                .properties(p -> p.noOcclusion().mapColor(MapColor.PODZOL))
+                .properties(p -> p.noOcclusion().color(MaterialColor.PODZOL))
                 .transform(TagGen.axeOrPickaxe())
                 .transform(BlockStressDefaults.setImpact(stressImpact))
                 .transform(GreateBuilderTransformers.tieredMechanicalPress())

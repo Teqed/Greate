@@ -63,7 +63,7 @@ public class TieredProcessingRecipeBuilder<T extends TieredProcessingRecipe<?>> 
         NonNullList<Ingredient> nonNullList = NonNullList.create();
         for(Content c : ingredients) {
             SizedIngredient ingredient = (SizedIngredient) c.getContent();
-            if(!ingredient.getItems()[0].is(GTItems.INTEGRATED_CIRCUIT.asItem())) {
+            if(!ingredient.getItems()[0].is(GTItems.INTEGRATED_CIRCUIT.get().asItem())) {
                 nonNullList.add(ingredient);
             }
         }

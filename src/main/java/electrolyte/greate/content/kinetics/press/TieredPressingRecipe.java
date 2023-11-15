@@ -72,19 +72,19 @@ public class TieredPressingRecipe extends TieredProcessingRecipe<RecipeWrapper> 
     }
 
     public static TieredPressingRecipe convertNormalPressing(Recipe<?> recipe) {
-        return new TieredProcessingRecipeBuilder<>(TieredPressingRecipe::new, recipe.getId()).withItemIngredients(recipe.getIngredients()).output(recipe.getResultItem(Minecraft.getInstance().level.registryAccess())).withItemOutputs(((ProcessingRecipe<?>) recipe).getRollableResults()).recipeTier(TIER.ULTRA_LOW).noCircuit().build();
+        return new TieredProcessingRecipeBuilder<>(TieredPressingRecipe::new, recipe.getId()).withItemIngredients(recipe.getIngredients()).output(recipe.getResultItem()).withItemOutputs(((ProcessingRecipe<?>) recipe).getRollableResults()).recipeTier(TIER.ULTRA_LOW).noCircuit().build();
     }
 
     public static TieredPressingRecipe convertGT(GTRecipe recipe) {
         List<Content> inputContents = recipe.getInputContents(ItemRecipeCapability.CAP);
         int circuitNumber = -1;
         for(Content c : inputContents) {
-            if(((SizedIngredientImpl) c.getContent()).getItems()[0].is(GTItems.INTEGRATED_CIRCUIT.asItem())) {
+            if(((SizedIngredientImpl) c.getContent()).getItems()[0].is(GTItems.INTEGRATED_CIRCUIT.get().asItem())) {
                 ItemStack circuit = ((SizedIngredientImpl) c.getContent()).getItems()[0];
                 circuitNumber = IntCircuitBehaviour.getCircuitConfiguration(circuit);
                 break;
             }
         }
-        return new TieredProcessingRecipeBuilder<>(TieredPressingRecipe::new, recipe.getId()).withItemIngredientsGT(inputContents).output(recipe.getResultItem(Minecraft.getInstance().level.registryAccess())).withItemOutputsGT(recipe.getOutputContents(ItemRecipeCapability.CAP), 0).recipeTier(TIER.convertGTEUToTier(recipe.getTickInputContents(EURecipeCapability.CAP))).recipeCircuit(circuitNumber).build();
+        return new TieredProcessingRecipeBuilder<>(TieredPressingRecipe::new, recipe.getId()).withItemIngredientsGT(inputContents).output(recipe.getResultItem()).withItemOutputsGT(recipe.getOutputContents(ItemRecipeCapability.CAP), 0).recipeTier(TIER.convertGTEUToTier(recipe.getTickInputContents(EURecipeCapability.CAP))).recipeCircuit(circuitNumber).build();
     }
 }
