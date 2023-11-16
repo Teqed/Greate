@@ -10,6 +10,7 @@ import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.data.TagGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
+
 import electrolyte.greate.Greate;
 import electrolyte.greate.GreateEnums.MATERIAL_TYPE;
 import electrolyte.greate.GreateEnums.TIER;
@@ -18,15 +19,15 @@ import electrolyte.greate.content.kinetics.gearbox.TieredGearboxBlock;
 import electrolyte.greate.content.kinetics.gearbox.TieredVerticalGearboxItem;
 import electrolyte.greate.foundation.data.GreateBuilderTransformers;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.Material;
 
 import static electrolyte.greate.Greate.REGISTRATE;
 
 public class Gearboxes {
 
     static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
+        REGISTRATE.creativeModeTab(() -> Greate.GREATE_TAB);
     }
 
     public static final BlockEntry<TieredGearboxBlock> ANDESITE_GEARBOX = gearbox("andesite_gearbox", TIER.ULTRA_LOW, MATERIAL_TYPE.ANDESITE, GreatePartialModels.ANDESITE_SHAFT_HALF);
@@ -55,7 +56,8 @@ public class Gearboxes {
                 .block(name, p -> new TieredGearboxBlock(p, halfShaftModel))
                 .initialProperties(SharedProperties::stone)
                 .properties(Properties::noOcclusion)
-                .properties(p -> p.mapColor(MapColor.PODZOL).pushReaction(PushReaction.PUSH_ONLY))
+                .properties(p -> p.color(MaterialColor.PODZOL))
+                .properties(p -> Properties.of(Material.PISTON))
                 .transform(BlockStressDefaults.setNoImpact())
                 .transform(TagGen.axeOrPickaxe())
                 .transform(GreateBuilderTransformers.tieredGearbox())

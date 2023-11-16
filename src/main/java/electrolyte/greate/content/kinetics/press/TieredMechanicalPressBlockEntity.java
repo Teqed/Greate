@@ -149,14 +149,14 @@ public class TieredMechanicalPressBlockEntity extends MechanicalPressBlockEntity
             RecipeApplier.applyRecipeOn(itemEntity, assemblyRecipe.isPresent() ? assemblyRecipe.get() : recipe.get());
             createdStack = itemEntity.getItem().copy();
         } else {
-            for(ItemStack result : RecipeApplier.applyRecipeOn(level, ItemHandlerHelper.copyStackWithSize(stack, 1), assemblyRecipe.isPresent() ? assemblyRecipe.get() : recipe.get())) {
+            for(ItemStack result : RecipeApplier.applyRecipeOn(ItemHandlerHelper.copyStackWithSize(stack, 1), assemblyRecipe.isPresent() ? assemblyRecipe.get() : recipe.get())) {
                 if(createdStack.isEmpty()) {
                     createdStack = result.copy();
                 }
                 ItemEntity createdEntityStack = new ItemEntity(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), result);
                 createdEntityStack.setDefaultPickUpDelay();
-                createdEntityStack.setDeltaMovement(VecHelper.offsetRandomly(Vec3.ZERO, level.random, 0.05f));
-                level.addFreshEntity(createdEntityStack);
+                createdEntityStack.setDeltaMovement(VecHelper.offsetRandomly(Vec3.ZERO, itemEntity.level.random, 0.05f));
+                itemEntity.level.addFreshEntity(createdEntityStack);
             }
 
             stack.shrink((assemblyRecipe.isPresent() ? assemblyRecipe.get() : recipe.get()).getIngredients().get(0).getItems()[0].getCount());
@@ -176,7 +176,7 @@ public class TieredMechanicalPressBlockEntity extends MechanicalPressBlockEntity
         if(assemblyRecipe.isEmpty() && recipe.isEmpty()) return false;
         if(simulate) return true;
         pressingBehaviour.particleItems.add(input.stack);
-        List<ItemStack> outputStacks = RecipeApplier.applyRecipeOn(level, canProcessInBulk() ?
+        List<ItemStack> outputStacks = RecipeApplier.applyRecipeOn(canProcessInBulk() ?
                 input.stack : ItemHandlerHelper.copyStackWithSize(input.stack, 1), assemblyRecipe.isPresent() ? assemblyRecipe.get() : recipe.get());
         for(ItemStack stack : outputStacks) {
             if(!stack.isEmpty()) {

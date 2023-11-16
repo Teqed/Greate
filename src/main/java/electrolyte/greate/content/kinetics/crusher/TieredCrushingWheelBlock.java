@@ -81,7 +81,7 @@ public class TieredCrushingWheelBlock extends CrushingWheelBlock implements ITie
         }
 
         if(!controllerExists) {
-            if(!level.getBlockState(controllerPos).canBeReplaced()) return;
+            if(!level.getBlockState(controllerPos).getMaterial().isReplaceable()) return;
             level.setBlockAndUpdate(controllerPos, TieredCrushingWheelControllerBlock.MAP.get(this).defaultBlockState()
                     .setValue(VALID, controllerShouldBeValid)
                     .setValue(CrushingWheelControllerBlock.FACING, controllerNewDirection));

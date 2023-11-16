@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "F": {
       "item": "gtceu:rubber_foil"
@@ -12,6 +11,5 @@
   ],
   "result": {
     "item": "greate:rubber_belt_connector"
-  },
-  "show_notification": true
+  }
 }

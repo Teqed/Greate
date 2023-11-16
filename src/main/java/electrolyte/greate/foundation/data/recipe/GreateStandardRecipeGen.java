@@ -12,15 +12,15 @@ import com.tterrag.registrate.util.entry.ItemProviderEntry;
 import electrolyte.greate.Greate;
 import electrolyte.greate.registry.*;
 import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCookingSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -35,8 +35,8 @@ import java.util.function.UnaryOperator;
 
 @SuppressWarnings("unused")
 public class GreateStandardRecipeGen extends GreateRecipeProvider {
-    public GreateStandardRecipeGen(PackOutput output) {
-        super(output);
+    public GreateStandardRecipeGen(DataGenerator pGenerator) {
+        super(pGenerator);
     }
 
     @Override
@@ -376,7 +376,7 @@ public class GreateStandardRecipeGen extends GreateRecipeProvider {
 
         GeneratedRecipe viaShaped(UnaryOperator<ShapedRecipeBuilder> builder) {
             return register(consumer -> {
-                ShapedRecipeBuilder b = builder.apply(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result.get(), amount));
+                ShapedRecipeBuilder b = builder.apply(ShapedRecipeBuilder.shaped(result.get(), amount));
                 if (unlockedBy != null)
                     b.unlockedBy("has_item", inventoryTrigger(unlockedBy.get()));
                 b.save(consumer, createGreateLocation("crafting"));
@@ -385,7 +385,7 @@ public class GreateStandardRecipeGen extends GreateRecipeProvider {
 
         GeneratedRecipe viaShapeless(UnaryOperator<ShapelessRecipeBuilder> builder) {
             return register(consumer -> {
-                ShapelessRecipeBuilder b = builder.apply(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, result.get(), amount));
+                ShapelessRecipeBuilder b = builder.apply(ShapelessRecipeBuilder.shapeless(result.get(), amount));
                 if (unlockedBy != null)
                     b.unlockedBy("has_item", inventoryTrigger(unlockedBy.get()));
                 b.save(consumer, createGreateLocation("crafting"));
@@ -394,9 +394,9 @@ public class GreateStandardRecipeGen extends GreateRecipeProvider {
 
         GeneratedRecipe viaSmithing(Supplier<? extends Item> base, Supplier<Ingredient> upgradeMaterial) {
             return register(consumer -> {
-                SmithingTransformRecipeBuilder b =
-                        SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(base.get()),
-                                upgradeMaterial.get(), RecipeCategory.COMBAT, result.get().asItem());
+                UpgradeRecipeBuilder b =
+                        UpgradeRecipeBuilder.smithing(Ingredient.of(base.get()), upgradeMaterial.get(), result.get()
+                                .asItem());
                 b.unlocks("has_item", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(base.get())
                         .build()));
@@ -435,10 +435,8 @@ public class GreateStandardRecipeGen extends GreateRecipeProvider {
             private float exp;
             private int cookingTime;
 
-            private final RecipeSerializer<? extends AbstractCookingRecipe>
-                    FURNACE = RecipeSerializer.SMELTING_RECIPE,
-                    SMOKER = RecipeSerializer.SMOKING_RECIPE,
-                    BLAST = RecipeSerializer.BLASTING_RECIPE,
+            private final SimpleCookingSerializer<?> FURNACE = RecipeSerializer.SMELTING_RECIPE,
+                    SMOKER = RecipeSerializer.SMOKING_RECIPE, BLAST = RecipeSerializer.BLASTING_RECIPE,
                     CAMPFIRE = RecipeSerializer.CAMPFIRE_COOKING_RECIPE;
 
             GeneratedCookingRecipeBuilder(Supplier<Ingredient> ingredient) {
@@ -484,14 +482,13 @@ public class GreateStandardRecipeGen extends GreateRecipeProvider {
                 return create(BLAST, builder, .5f);
             }
 
-            private GeneratedRecipe create(RecipeSerializer<? extends AbstractCookingRecipe> serializer,
+            private GeneratedRecipe create(SimpleCookingSerializer<?> serializer,
                                            UnaryOperator<SimpleCookingRecipeBuilder> builder, float cookingTimeModifier) {
                 return register(consumer -> {
                     boolean isOtherMod = compatDatagenOutput != null;
 
                     SimpleCookingRecipeBuilder b = builder.apply(
-                            SimpleCookingRecipeBuilder.generic(ingredient.get(), RecipeCategory.MISC,
-                                    isOtherMod ? Items.DIRT : result.get(),
+                            SimpleCookingRecipeBuilder.cooking(ingredient.get(), isOtherMod ? Items.DIRT : result.get(),
                                     exp, (int) (cookingTime * cookingTimeModifier), serializer));
                     if (unlockedBy != null)
                         b.unlockedBy("has_item", inventoryTrigger(unlockedBy.get()));
@@ -547,5 +544,6 @@ public class GreateStandardRecipeGen extends GreateRecipeProvider {
             conditions.forEach(c -> conds.add(CraftingHelper.serialize(c)));
             object.add("conditions", conds);
         }
+
     }
 }

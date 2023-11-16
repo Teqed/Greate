@@ -9,7 +9,7 @@ import static electrolyte.greate.Greate.REGISTRATE;
 public class ModItems {
 
     static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
+        REGISTRATE.creativeModeTab(() -> Greate.GREATE_TAB);
     }
 
     public static final ItemEntry<Item> STEEL_ALLOY = alloy("steel_alloy");

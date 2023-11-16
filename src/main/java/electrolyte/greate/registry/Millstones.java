@@ -5,13 +5,14 @@ import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.data.TagGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
+
 import electrolyte.greate.Greate;
 import electrolyte.greate.GreateEnums.MATERIAL_TYPE;
 import electrolyte.greate.GreateEnums.TIER;
 import electrolyte.greate.content.kinetics.TieredBlockMaterials;
 import electrolyte.greate.content.kinetics.millstone.TieredMillstoneBlock;
 import electrolyte.greate.foundation.data.GreateBuilderTransformers;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ import static electrolyte.greate.Greate.REGISTRATE;
 public class Millstones {
 
     static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
+        REGISTRATE.creativeModeTab(() -> Greate.GREATE_TAB);
     }
 
     public static ArrayList<TieredMillstoneBlock> MILLSTONES = new ArrayList<>();
@@ -40,7 +41,7 @@ public class Millstones {
         return REGISTRATE
                 .block(name, p -> new TieredMillstoneBlock(p, millstoneInnerModel))
                 .initialProperties(SharedProperties::stone)
-                .properties(p -> p.mapColor(MapColor.METAL))
+                .properties(p -> p.color(MaterialColor.METAL))
                 .transform(TagGen.pickaxeOnly())
                 .transform(GreateBuilderTransformers.tieredMillstone())
                 .transform(BlockStressDefaults.setImpact(millstoneImpact))

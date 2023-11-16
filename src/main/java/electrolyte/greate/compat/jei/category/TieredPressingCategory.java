@@ -1,5 +1,6 @@
 package electrolyte.greate.compat.jei.category;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
@@ -12,8 +13,8 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -42,7 +43,7 @@ public class TieredPressingCategory extends GreateRecipeCategory<TieredPressingR
         }
 
         if(recipe.getCircuitNumber() != -1) {
-            ItemStack circuitStack = new ItemStack(GTItems.INTEGRATED_CIRCUIT);
+            ItemStack circuitStack = new ItemStack((ItemLike) GTItems.INTEGRATED_CIRCUIT);
             IntCircuitBehaviour.setCircuitConfiguration(circuitStack, recipe.getCircuitNumber());
             builder.addSlot(RecipeIngredientRole.RENDER_ONLY, getBackground().getWidth() / 2 - 37, 2)
                     .setBackground(getRenderedSlot(), -1, -1)
@@ -51,10 +52,10 @@ public class TieredPressingCategory extends GreateRecipeCategory<TieredPressingR
     }
 
     @Override
-    public void draw(TieredPressingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double x, double y) {
-        super.draw(recipe, recipeSlotsView, graphics, 1, 75);
-        AllGuiTextures.JEI_SHADOW.render(graphics, 61, 41);
-        AllGuiTextures.JEI_LONG_ARROW.render(graphics, 52, 54);
-        new TieredAnimatedMechanicalPress(MechanicalPresses.MECHANICAL_PRESSES.get(TIER.indexOfTier(recipe.getRecipeTier())), false).draw(graphics, getBackground().getWidth() / 2 - 17, 22);
+    public void draw(TieredPressingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double x, double y) {
+        super.draw(recipe, recipeSlotsView, poseStack, 1, 75);
+        AllGuiTextures.JEI_SHADOW.render(poseStack, 61, 41);
+        AllGuiTextures.JEI_LONG_ARROW.render(poseStack, 52, 54);
+        new TieredAnimatedMechanicalPress(MechanicalPresses.MECHANICAL_PRESSES.get(TIER.indexOfTier(recipe.getRecipeTier())), false).draw(poseStack, getBackground().getWidth() / 2 - 17, 22);
     }
 }

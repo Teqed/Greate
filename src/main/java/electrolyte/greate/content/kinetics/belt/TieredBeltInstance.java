@@ -26,7 +26,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.LightLayer;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.joml.Quaternionf;
+
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
@@ -167,7 +169,8 @@ public class TieredBeltInstance extends TieredKineticBlockEntityInstance<TieredB
         float rotX = (!diagonal && beltSlope != BeltSlope.HORIZONTAL ? 90 : 0) + (downward ? 180 : 0) + (sideways ? 90 : 0) + (vertical && alongZ ? 180 : 0);
         float rotY = facing.toYRot() + ((diagonal ^ alongX) && !downward ? 180 : 0) + (sideways && alongZ ? 180 : 0) + (vertical && alongX ? 90 : 0);
         float rotZ = (sideways ? 90 : 0) + (vertical && alongX ? 90 : 0);
-        Quaternionf q = new Quaternionf().rotationXYZ(rotX * Mth.DEG_TO_RAD, rotY * Mth.DEG_TO_RAD, rotZ * Mth.DEG_TO_RAD);
+        Quaternion q = Quaternion.fromXYZ(new Vector3f(rotX * Mth.DEG_TO_RAD, rotY * Mth.DEG_TO_RAD, rotZ * Mth.DEG_TO_RAD));
+        
         key.setScrollTexture(spriteShift)
                 .setScrollMult(diagonal ? 3f / 8f : 0.5f)
                 .setRotation(q)

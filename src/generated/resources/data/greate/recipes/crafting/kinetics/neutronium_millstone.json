@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "A": {
       "tag": "greate:shafts/neutronium"
@@ -25,6 +24,5 @@
   ],
   "result": {
     "item": "greate:neutronium_millstone"
-  },
-  "show_notification": true
+  }
 }

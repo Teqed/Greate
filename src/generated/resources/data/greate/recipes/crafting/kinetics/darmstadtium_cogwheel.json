@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "F": {
       "tag": "forge:tools/files"
@@ -18,6 +17,5 @@
   ],
   "result": {
     "item": "greate:darmstadtium_cogwheel"
-  },
-  "show_notification": true
+  }
 }

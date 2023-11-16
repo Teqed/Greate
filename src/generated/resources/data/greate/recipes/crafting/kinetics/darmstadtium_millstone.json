@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "A": {
       "tag": "greate:shafts/darmstadtium"
@@ -25,6 +24,5 @@
   ],
   "result": {
     "item": "greate:darmstadtium_millstone"
-  },
-  "show_notification": true
+  }
 }

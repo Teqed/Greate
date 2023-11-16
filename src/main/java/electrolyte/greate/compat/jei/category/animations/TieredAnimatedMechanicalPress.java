@@ -1,12 +1,11 @@
 package electrolyte.greate.compat.jei.category.animations;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.mojang.math.Vector3f;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 import electrolyte.greate.content.kinetics.press.TieredMechanicalPressBlock;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,24 +22,23 @@ public class TieredAnimatedMechanicalPress extends AnimatedKinetics {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
-        PoseStack matrixStack = guiGraphics.pose();
-        matrixStack.pushPose();
-        matrixStack.translate(xOffset, yOffset, 200);
-        matrixStack.mulPose(Axis.XP.rotationDegrees(-15.5f));
-        matrixStack.mulPose(Axis.YP.rotationDegrees(22.5f));
+    public void draw(PoseStack poseStack, int xOffset, int yOffset) {
+        poseStack.pushPose();
+        poseStack.translate(xOffset, yOffset, 200);
+        poseStack.mulPose(Vector3f.XP.rotationDegrees(-15.5f));
+        poseStack.mulPose(Vector3f.YP.rotationDegrees(22.5f));
         int scale = basin ? 23 : 24;
 
-        blockElement(shaft(block)).rotateBlock(0, 0, getCurrentAngle()).scale(scale).render(guiGraphics);
-        blockElement(block.defaultBlockState()).scale(scale).render(guiGraphics);
+        blockElement(shaft(block)).rotateBlock(0, 0, getCurrentAngle()).scale(scale).render(poseStack);
+        blockElement(block.defaultBlockState()).scale(scale).render(poseStack);
         blockElement(block.getPartialModel())
-                .atLocal(0, -getAnimatedHeadOffset(), 0).scale(scale).render(guiGraphics);
+                .atLocal(0, -getAnimatedHeadOffset(), 0).scale(scale).render(poseStack);
 
         if (basin) {
-            blockElement(AllBlocks.BASIN.getDefaultState()).atLocal(0, 1.65, 0).scale(scale).render(guiGraphics);
+            blockElement(AllBlocks.BASIN.getDefaultState()).atLocal(0, 1.65, 0).scale(scale).render(poseStack);
         }
 
-        matrixStack.popPose();
+        poseStack.popPose();
     }
 
     private float getAnimatedHeadOffset() {

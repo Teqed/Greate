@@ -1,7 +1,7 @@
 package electrolyte.greate.content.kinetics.belt.item;
 
+import com.simibubi.create.infrastructure.config.AllConfigs;
 import electrolyte.greate.content.kinetics.simpleRelays.TieredShaftBlock;
-import electrolyte.greate.infrastructure.config.GConfigUtility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -11,12 +11,13 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
+import com.mojang.math.Vector3f;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class TieredBeltConnectorHandler {
 
         for(InteractionHand hand : InteractionHand.values()) {
             ItemStack heldStack = player.getItemInHand(hand);
-            if(!(heldStack.getItem() instanceof TieredBeltConnectorItem tbci)) continue;
+            if(!(heldStack.getItem() instanceof TieredBeltConnectorItem)) continue;
             if(!heldStack.hasTag()) continue;
 
             CompoundTag tag = heldStack.getTag();
@@ -56,11 +57,11 @@ public class TieredBeltConnectorHandler {
             }
 
             BlockPos selected = ((BlockHitResult) hitResult).getBlockPos();
-            if(level.getBlockState(selected).canBeReplaced()) return;
+            if(level.getBlockState(selected).canBeReplaced(new BlockPlaceContext(player, hand, heldStack, (BlockHitResult) hitResult))) return;
             if(!(level.getBlockState(selected).getBlock() instanceof TieredShaftBlock)) {
                 selected = selected.relative(((BlockHitResult) hitResult).getDirection());
             }
-            if(!selected.closerThan(first, GConfigUtility.getBeltLengthFromType(tbci.getBeltType()))) return;
+            if(!selected.closerThan(first, AllConfigs.server().kinetics.maxBeltLength.get())) return; //todo: variable for each tier of belt
 
             boolean canConnect = TieredBeltConnectorItem.validateAxis(level, selected) && TieredBeltConnectorItem.canConnect(level, first, selected, heldStack);
             Vec3 start = Vec3.atLowerCornerOf(first);

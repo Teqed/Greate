@@ -51,7 +51,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.DebugLevelSource;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -85,11 +85,11 @@ public class TieredBeltBlock extends BeltBlock implements ITieredBlock, ITieredB
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState pState, Builder pBuilder) {
+    public List<ItemStack> getDrops(BlockState pState, LootContext.Builder pBuilder) {
         List<ItemStack> drops = super.getDrops(pState, pBuilder);
         BlockEntity be = pBuilder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if(be instanceof TieredBeltBlockEntity tbe && tbe.hasPulley()) {
-            drops.removeIf(s -> s.is(AllBlocks.SHAFT.asItem()));
+            drops.removeIf(s -> s.is(AllBlocks.SHAFT.get().asItem()));
             drops.addAll(Block.byItem(this.getShaftType().getItem()).getDrops(pState, pBuilder));
         }
         return drops;

@@ -1,37 +1,33 @@
 package electrolyte.greate.foundation.data;
 
 import electrolyte.greate.registry.GreateTags;
-import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-
-import java.util.concurrent.CompletableFuture;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 
 public class GreateTagGen extends ItemTagsProvider {
 
-    public GreateTagGen(PackOutput pOutput, CompletableFuture<Provider> pLookupProvider, CompletableFuture<TagLookup<Block>> pBlockTags, String modId, ExistingFileHelper existingFileHelper) {
-        super(pOutput, pLookupProvider, pBlockTags, modId, existingFileHelper);
+    public GreateTagGen(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider, String modId, ExistingFileHelper existingFileHelper) {
+        super(dataGenerator, blockTagProvider, modId, existingFileHelper);
     }
 
     @Override
-    protected void addTags(Provider pProvider) {
-        getOrCreateRawBuilder(GreateTags.forgeItemTag("plates/tungstensteel"))
+    protected void addTags() {
+        tag(GreateTags.forgeItemTag("plates/tungstensteel"))
                 .addOptionalTag(new ResourceLocation("forge", "plates/tungsten_steel"));
-        getOrCreateRawBuilder(GreateTags.forgeItemTag("nuggets/tungstensteel"))
+        tag(GreateTags.forgeItemTag("nuggets/tungstensteel"))
                 .addOptionalTag(new ResourceLocation("forge", "nuggets/tungsten_steel"));
     }
 
     public static class GreateBlockTagGen extends BlockTagsProvider {
 
-        public GreateBlockTagGen(PackOutput output, CompletableFuture<Provider> lookupProvider, String modId, ExistingFileHelper existingFileHelper) {
-            super(output, lookupProvider, modId, existingFileHelper);
+        public GreateBlockTagGen(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper) {
+            super(dataGenerator, modId, existingFileHelper);
         }
 
         @Override
-        protected void addTags(Provider pProvider) {}
+        protected void addTags() {}
     }
 }

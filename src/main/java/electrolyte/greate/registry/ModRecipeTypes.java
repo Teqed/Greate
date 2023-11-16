@@ -13,7 +13,7 @@ import electrolyte.greate.content.kinetics.press.TieredPressingRecipe;
 import electrolyte.greate.content.processing.recipe.TieredProcessingRecipe;
 import electrolyte.greate.content.processing.recipe.TieredProcessingRecipeBuilder.TieredProcessingRecipeFactory;
 import electrolyte.greate.content.processing.recipe.TieredProcessingRecipeSerializer;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
@@ -117,7 +117,7 @@ public enum ModRecipeTypes implements IRecipeTypeInfo {
 
 	private static class Registers {
 		private static final DeferredRegister<RecipeSerializer<?>> SERIALIZER_REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Greate.MOD_ID);
-		private static final DeferredRegister<RecipeType<?>> TYPE_REGISTER = DeferredRegister.create(Registries.RECIPE_TYPE, Greate.MOD_ID);
+		private static final DeferredRegister<RecipeType<?>> TYPE_REGISTER = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, Greate.MOD_ID);
 	}
 
 }

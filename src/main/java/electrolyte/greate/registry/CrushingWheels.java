@@ -4,6 +4,7 @@ import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.data.TagGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
+
 import electrolyte.greate.Greate;
 import electrolyte.greate.GreateEnums.MATERIAL_TYPE;
 import electrolyte.greate.GreateEnums.TIER;
@@ -14,8 +15,9 @@ import electrolyte.greate.foundation.data.GreateBlockStateGen;
 import electrolyte.greate.foundation.data.GreateBuilderTransformers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.Material;
 
 import java.util.ArrayList;
 
@@ -24,7 +26,7 @@ import static electrolyte.greate.Greate.REGISTRATE;
 public class CrushingWheels {
 
     static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
+        REGISTRATE.creativeModeTab(() -> Greate.GREATE_TAB);
     }
 
     public static ArrayList<TieredCrushingWheelBlock> CRUSHING_WHEELS = new ArrayList<>();
@@ -53,7 +55,7 @@ public class CrushingWheels {
     public static BlockEntry<TieredCrushingWheelBlock> crushingWheel(String name, TIER tier, MATERIAL_TYPE materialType, double stressImpact) {
         return REGISTRATE
                 .block(name, TieredCrushingWheelBlock::new)
-                .properties(p -> p.mapColor(MapColor.METAL))
+                .properties(p -> p.color(MaterialColor.METAL))
                 .initialProperties(SharedProperties::stone)
                 .properties(BlockBehaviour.Properties::noOcclusion)
                 .transform(TagGen.pickaxeOnly())
@@ -68,12 +70,12 @@ public class CrushingWheels {
     public static BlockEntry<TieredCrushingWheelControllerBlock> crushingWheelController(String name, TIER tier, BlockEntry<TieredCrushingWheelBlock> crushingWheel) {
         return REGISTRATE
                 .block(name, p -> new TieredCrushingWheelControllerBlock(p, crushingWheel.get()))
-                .properties(p -> p.mapColor(MapColor.STONE))
+                .properties(p -> p.color(MaterialColor.STONE))
                 .properties(p -> p.noOcclusion()
                         .noLootTable()
                         .air()
-                        .noCollission()
-                        .pushReaction(PushReaction.BLOCK))
+                        .noCollission())
+                .properties(p -> Properties.of(Material.PISTON))
                 .blockstate(GreateBlockStateGen.tieredCrushingWheelControllerProvider())
                 .onRegister(c -> c.setTier(tier))
                 .register();

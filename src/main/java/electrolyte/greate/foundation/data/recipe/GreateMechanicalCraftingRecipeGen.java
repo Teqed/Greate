@@ -8,7 +8,7 @@ import com.tterrag.registrate.util.entry.ItemProviderEntry;
 import electrolyte.greate.Greate;
 import electrolyte.greate.registry.CrushingWheels;
 import electrolyte.greate.registry.GreateTags;
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,13 +16,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.function.UnaryOperator;
 
 public class GreateMechanicalCraftingRecipeGen extends GreateRecipeProvider {
-    public GreateMechanicalCraftingRecipeGen(PackOutput output) {
-        super(output);
-    }
-
-    @Override
-    public String getName() {
-        return "Greate's Mechanical Crafting Recipes";
+    public GreateMechanicalCraftingRecipeGen(DataGenerator pGenerator) {
+        super(pGenerator);
     }
 
     GeneratedRecipe

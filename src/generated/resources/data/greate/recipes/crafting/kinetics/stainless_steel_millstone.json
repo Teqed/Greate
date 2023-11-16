@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "A": {
       "tag": "greate:shafts/stainless_steel"
@@ -25,6 +24,5 @@
   ],
   "result": {
     "item": "greate:stainless_steel_millstone"
-  },
-  "show_notification": true
+  }
 }

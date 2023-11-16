@@ -39,9 +39,9 @@ public class GreateConfigs {
 
     private static <T extends ConfigBase> T register(Supplier<T> factory, ModConfig.Type type) {
         Pair<T, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(b -> {
-           T config = factory.get();
-           config.registerAll(b);
-           return config;
+            T config = factory.get();
+            config.registerAll(b);
+            return config;
         });
 
         T config = specPair.getLeft();

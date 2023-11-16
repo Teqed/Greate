@@ -24,7 +24,7 @@ import electrolyte.greate.registry.GreateTags.GreateItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 
 import static electrolyte.greate.Greate.REGISTRATE;
 import static electrolyte.greate.foundation.data.GreateBuilderTransformers.tieredEncasedCogwheel;
@@ -33,7 +33,7 @@ import static electrolyte.greate.foundation.data.GreateBuilderTransformers.tiere
 public class Cogwheels {
 
     static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
+        REGISTRATE.creativeModeTab(() -> Greate.GREATE_TAB);
     }
 
     public static final BlockEntry<TieredCogwheelBlock> ANDESITE_COGWHEEL = registerCogwheel("andesite_cogwheel", TIER.ULTRA_LOW, MATERIAL_TYPE.ANDESITE, GreatePartialModels.LARGE_ANDESITE_COGWHEEL_SHAFTLESS, GreatePartialModels.ANDESITE_COGWHEEL_SHAFT, GreateItemTags.COGWHEELS_ANDESITE.itemTag);
@@ -102,7 +102,7 @@ public class Cogwheels {
                 .block(name, p -> TieredCogwheelBlock.small(p, largeCogwheelShaftless, cogwheelShaft))
                 .initialProperties(SharedProperties::stone)
                 .properties(p -> p.sound(SoundType.WOOD))
-                .properties(p -> p.mapColor(MapColor.DIRT))
+                .properties(p -> p.color(MaterialColor.DIRT))
                 .transform(BlockStressDefaults.setNoImpact())
                 .transform(TagGen.axeOrPickaxe())
                 .transform(TieredBlockMaterials.setMaterialTypeForBlock(materialType))
@@ -120,7 +120,7 @@ public class Cogwheels {
                 .block(name, p -> TieredCogwheelBlock.large(p, largeCogwheelShaftless, cogwheelShaft))
                 .initialProperties(SharedProperties::stone)
                 .properties(p -> p.sound(SoundType.WOOD))
-                .properties(p -> p.mapColor(MapColor.DIRT))
+                .properties(p -> p.color(MaterialColor.DIRT))
                 .transform(BlockStressDefaults.setNoImpact())
                 .transform(TagGen.axeOrPickaxe())
                 .transform(TieredBlockMaterials.setMaterialTypeForBlock(materialType))
@@ -136,7 +136,7 @@ public class Cogwheels {
     public static BlockEntry<TieredEncasedCogwheelBlock> registerAndesiteEncasedCogwheel(String name, TIER tier, MATERIAL_TYPE materialType, BlockEntry<TieredCogwheelBlock> cogwheel, PartialModel halfShaftModel, PartialModel cogwheelShaftlessModel) {
         return REGISTRATE
                 .block(name, p -> TieredEncasedCogwheelBlock.small(p, AllBlocks.ANDESITE_CASING::get, cogwheel::get, halfShaftModel, cogwheelShaftlessModel))
-                .properties(p -> p.mapColor(MapColor.PODZOL))
+                .properties(p -> p.color(MaterialColor.PODZOL))
                 .transform(tieredEncasedCogwheel(cogwheel, () -> AllSpriteShifts.ANDESITE_CASING))
                 .transform(EncasingRegistry.addVariantTo(cogwheel))
                 .onRegister(CreateRegistrate.connectedTextures(() -> new EncasedCogCTBehaviour(AllSpriteShifts.ANDESITE_CASING,
@@ -150,7 +150,7 @@ public class Cogwheels {
     public static BlockEntry<TieredEncasedCogwheelBlock> registerAndesiteEncasedLargeCogwheel(String name, TIER tier, MATERIAL_TYPE materialType, BlockEntry<TieredCogwheelBlock> cogwheel, BlockEntry<TieredCogwheelBlock> largeCogwheel, PartialModel halfShaftModel, PartialModel cogwheelShaftlessModel) {
         return REGISTRATE
                 .block(name, p -> TieredEncasedCogwheelBlock.large(p, AllBlocks.ANDESITE_CASING::get, largeCogwheel::get, halfShaftModel, cogwheelShaftlessModel))
-                .properties(p -> p.mapColor(MapColor.PODZOL))
+                .properties(p -> p.color(MaterialColor.PODZOL))
                 .transform(tieredEncasedLargeCogwheel(cogwheel, () -> AllSpriteShifts.ANDESITE_CASING))
                 .transform(EncasingRegistry.addVariantTo(largeCogwheel))
                 .transform(TagGen.axeOrPickaxe())
@@ -162,7 +162,7 @@ public class Cogwheels {
     public static BlockEntry<TieredEncasedCogwheelBlock> registerBrassEncasedCogwheel(String name, TIER tier, MATERIAL_TYPE materialType, BlockEntry<TieredCogwheelBlock> cogwheel, PartialModel halfShaftModel, PartialModel cogwheelShaftlessModel) {
         return REGISTRATE
                 .block(name, p -> TieredEncasedCogwheelBlock.small(p, AllBlocks.BRASS_CASING::get, cogwheel::get, halfShaftModel, cogwheelShaftlessModel))
-                .properties(p -> p.mapColor(MapColor.PODZOL))
+                .properties(p -> p.color(MaterialColor.PODZOL))
                 .transform(tieredEncasedCogwheel(cogwheel, () -> AllSpriteShifts.BRASS_CASING))
                 .transform(EncasingRegistry.addVariantTo(cogwheel))
                 .onRegister(CreateRegistrate.connectedTextures(() -> new EncasedCogCTBehaviour(AllSpriteShifts.BRASS_CASING,
@@ -176,7 +176,7 @@ public class Cogwheels {
     public static BlockEntry<TieredEncasedCogwheelBlock> registerBrassEncasedLargeCogwheel(String name, TIER tier, MATERIAL_TYPE materialType, BlockEntry<TieredCogwheelBlock> cogwheel, BlockEntry<TieredCogwheelBlock> largeCogwheel, PartialModel halfShaftModel, PartialModel cogwheelShaftlessModel) {
         return REGISTRATE
                 .block(name, p -> TieredEncasedCogwheelBlock.large(p, AllBlocks.BRASS_CASING::get, largeCogwheel::get, halfShaftModel, cogwheelShaftlessModel))
-                .properties(p -> p.mapColor(MapColor.PODZOL))
+                .properties(p -> p.color(MaterialColor.PODZOL))
                 .transform(tieredEncasedLargeCogwheel(cogwheel, () -> AllSpriteShifts.BRASS_CASING))
                 .transform(EncasingRegistry.addVariantTo(largeCogwheel))
                 .transform(TagGen.axeOrPickaxe())

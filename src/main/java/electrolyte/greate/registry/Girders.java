@@ -15,7 +15,7 @@ import electrolyte.greate.content.decoration.girder.TieredGirderEncasedShaftBloc
 import electrolyte.greate.content.kinetics.TieredBlockMaterials;
 import electrolyte.greate.content.kinetics.simpleRelays.TieredShaftBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -25,7 +25,7 @@ import static electrolyte.greate.Greate.REGISTRATE;
 public class Girders {
 
     static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
+        REGISTRATE.creativeModeTab(() -> Greate.GREATE_TAB);
     }
 
     public static final BlockEntry<TieredGirderEncasedShaftBlock> METAL_GIRDER_ENCASED_ANDESITE_SHAFT = metalGirderEncasedShaft("metal_girder_encased_andesite_shaft", TIER.ULTRA_LOW, MATERIAL_TYPE.ANDESITE, Shafts.ANDESITE_SHAFT);
@@ -44,7 +44,7 @@ public class Girders {
                 .block(name, p -> new TieredGirderEncasedShaftBlock(p, shaft::get))
                 .initialProperties(SharedProperties::softMetal)
                 .blockstate(GreateGirderBlockStateGenerator::blockStateWithShaft)
-                .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
+                .properties(p -> p.color(MaterialColor.COLOR_GRAY))
                 .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
                 .transform(TagGen.pickaxeOnly())
                 .loot((p, b) -> p.add(b, p.createSingleItemTable(AllBlocks.METAL_GIRDER.get())

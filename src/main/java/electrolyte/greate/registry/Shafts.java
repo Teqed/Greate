@@ -9,6 +9,7 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.data.TagGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
+
 import electrolyte.greate.Greate;
 import electrolyte.greate.GreateEnums.MATERIAL_TYPE;
 import electrolyte.greate.GreateEnums.TIER;
@@ -21,14 +22,14 @@ import electrolyte.greate.foundation.data.GreateBuilderTransformers;
 import electrolyte.greate.registry.GreateTags.GreateItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 
 import static electrolyte.greate.Greate.REGISTRATE;
 
 public class Shafts {
 
     static {
-        REGISTRATE.setCreativeTab(Greate.GREATE_TAB);
+        REGISTRATE.creativeModeTab(() -> Greate.GREATE_TAB);
     }
 
     public static final BlockEntry<TieredShaftBlock> ANDESITE_SHAFT = shaft("andesite_shaft", TIER.ULTRA_LOW, MATERIAL_TYPE.ANDESITE, GreateItemTags.SHAFTS_ANDESITE.itemTag);
@@ -76,7 +77,7 @@ public class Shafts {
         return REGISTRATE
                 .block(name, TieredShaftBlock::new)
                 .initialProperties(SharedProperties::stone)
-                .properties(p -> p.mapColor(MapColor.METAL))
+                .properties(p -> p.color(MaterialColor.METAL))
                 .transform(BlockStressDefaults.setNoImpact())
                 .transform(TieredBlockMaterials.setMaterialTypeForBlock(materialType))
                 .transform(TagGen.pickaxeOnly())
@@ -94,7 +95,7 @@ public class Shafts {
         return REGISTRATE
                 .block(name, p -> new TieredPoweredShaftBlock(p, shaft::get))
                 .initialProperties(SharedProperties::stone)
-                .properties(p -> p.mapColor(MapColor.METAL))
+                .properties(p -> p.color(MaterialColor.METAL))
                 .transform(TagGen.pickaxeOnly())
                 .transform(TieredBlockMaterials.setMaterialTypeForBlock(materialType))
                 .blockstate(GreateBlockStateGen.tieredPoweredShaftProvider())
@@ -106,7 +107,7 @@ public class Shafts {
     public static BlockEntry<TieredEncasedShaftBlock> andesiteEncasedShaft(String name, TIER tier, MATERIAL_TYPE materialType, BlockEntry<TieredShaftBlock> shaft) {
         return REGISTRATE
                 .block(name, p -> new TieredEncasedShaftBlock(p, AllBlocks.ANDESITE_CASING::get, shaft::get))
-                .properties(p -> p.mapColor(MapColor.PODZOL))
+                .properties(p -> p.color(MaterialColor.PODZOL))
                 .transform(GreateBuilderTransformers.tieredAndesiteEncasedShaft(shaft, () -> AllSpriteShifts.ANDESITE_CASING))
                 .transform(EncasingRegistry.addVariantTo(shaft))
                 .transform(TagGen.axeOrPickaxe())
@@ -118,7 +119,7 @@ public class Shafts {
     public static BlockEntry<TieredEncasedShaftBlock> brassEncasedShaft(String name, TIER tier, MATERIAL_TYPE materialType, BlockEntry<TieredShaftBlock> shaft) {
         return REGISTRATE
                 .block(name, p -> new TieredEncasedShaftBlock(p, AllBlocks.BRASS_CASING::get, shaft::get))
-                .properties(p -> p.mapColor(MapColor.PODZOL))
+                .properties(p -> p.color(MaterialColor.PODZOL))
                 .transform(GreateBuilderTransformers.tieredBrassEncasedShaft(shaft, () -> AllSpriteShifts.BRASS_CASING))
                 .transform(EncasingRegistry.addVariantTo(shaft))
                 .transform(TagGen.axeOrPickaxe())
