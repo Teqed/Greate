@@ -49,4 +49,6 @@ public class MechanicalPresses {
                 .onRegister(c -> c.setTier(tier))
                 .register();
     }
+
+    public static void register() {}
 }

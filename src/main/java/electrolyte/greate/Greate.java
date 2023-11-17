@@ -43,6 +43,7 @@ public class Greate {
         CrushingWheels.register();
         Gearboxes.register();
         Girders.register();
+        MechanicalPresses.register();
         Millstones.register();
         Shafts.register();
         ModBlockEntityTypes.register();
