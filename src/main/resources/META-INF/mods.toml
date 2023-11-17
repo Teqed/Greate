@@ -5,10 +5,10 @@ issueTrackerURL="https://github.com/GreateBeyondTheHorizon/Greate/issues"
 
 [[mods]]
 modId="greate"
-version="0.0.7"
+version="${file.jarVersion}"
 displayName="Greate"
 displayURL="https://modrinth.com/mod/greate"
-#logoFile="examplemod.png"
+logoFile="logo.png"
 credits="Both the Create & Gregtech devs for making awesome mods!"
 authors="Electrolyte"
 
@@ -16,7 +16,7 @@ description="Create Gregified"
 
 [[dependencies.greate]]
     modId="kubejs_create"
-    mandatory=true
+    mandatory=false
     versionRange="[1902.2.4-build.29,)"
     ordering="NONE"
     side="BOTH"
@@ -32,13 +32,6 @@ description="Create Gregified"
     modId="gtceu"
     mandatory=true
     versionRange="[1.0.10,)"
-    ordering="NONE"
-    side="BOTH"
-
-[[dependencies.greate]]
-    modId="configuration"
-    mandatory=true
-    versionRange="[2.1.0,)"
     ordering="NONE"
     side="BOTH"
 

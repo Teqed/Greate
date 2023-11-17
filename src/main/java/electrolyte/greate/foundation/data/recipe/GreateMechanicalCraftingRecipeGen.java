@@ -86,4 +86,9 @@ public class GreateMechanicalCraftingRecipeGen extends GreateRecipeProvider {
             });
         }
     }
+
+    @Override
+    public String getName() {
+        return "Greate's Mechanical Crafting Recipes";
+    }
 }

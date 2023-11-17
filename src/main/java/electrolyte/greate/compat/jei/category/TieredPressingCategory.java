@@ -43,7 +43,7 @@ public class TieredPressingCategory extends GreateRecipeCategory<TieredPressingR
         }
 
         if(recipe.getCircuitNumber() != -1) {
-            ItemStack circuitStack = new ItemStack((ItemLike) GTItems.INTEGRATED_CIRCUIT);
+            ItemStack circuitStack = new ItemStack(GTItems.INTEGRATED_CIRCUIT.get());
             IntCircuitBehaviour.setCircuitConfiguration(circuitStack, recipe.getCircuitNumber());
             builder.addSlot(RecipeIngredientRole.RENDER_ONLY, getBackground().getWidth() / 2 - 37, 2)
                     .setBackground(getRenderedSlot(), -1, -1)

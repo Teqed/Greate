@@ -55,9 +55,9 @@ public class Gearboxes {
         return REGISTRATE
                 .block(name, p -> new TieredGearboxBlock(p, halfShaftModel))
                 .initialProperties(SharedProperties::stone)
+                .properties(p -> Properties.of(Material.PISTON))
                 .properties(Properties::noOcclusion)
                 .properties(p -> p.color(MaterialColor.PODZOL))
-                .properties(p -> Properties.of(Material.PISTON))
                 .transform(BlockStressDefaults.setNoImpact())
                 .transform(TagGen.axeOrPickaxe())
                 .transform(GreateBuilderTransformers.tieredGearbox())

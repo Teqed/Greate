@@ -70,12 +70,12 @@ public class CrushingWheels {
     public static BlockEntry<TieredCrushingWheelControllerBlock> crushingWheelController(String name, TIER tier, BlockEntry<TieredCrushingWheelBlock> crushingWheel) {
         return REGISTRATE
                 .block(name, p -> new TieredCrushingWheelControllerBlock(p, crushingWheel.get()))
+                .properties(p -> Properties.of(Material.PISTON))
                 .properties(p -> p.color(MaterialColor.STONE))
                 .properties(p -> p.noOcclusion()
                         .noLootTable()
                         .air()
                         .noCollission())
-                .properties(p -> Properties.of(Material.PISTON))
                 .blockstate(GreateBlockStateGen.tieredCrushingWheelControllerProvider())
                 .onRegister(c -> c.setTier(tier))
                 .register();
